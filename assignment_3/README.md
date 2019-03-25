@@ -13,18 +13,19 @@
 below is a LL(1) representation of the VSPL grammar provided above
 
 ```
-<program> ::= begin <statement_list> end
+<program> ::= begin <statement_list>
 
 <statement_list>  ::= <statement> ; <statement_list'>
 <statement_list'> ::= <statement_list>
-                    | e
+                    | end
+                    | $
 
 <statement> ::= id = <expression>
 
 <expression>  ::= <factor> <expression'>
 <expression'> ::= +<factor>
                 | -<factor>
-                | e
+                | $
 
 <factor> ::= id | num
 ```
