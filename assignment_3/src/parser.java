@@ -7,16 +7,16 @@ public class Parser {
   private static String token;
 
   private static Boolean factor() {
-    token = scanner.readline();
-    return token == "id" || token == "num";
+    token = scanner.next();
+    return token.equals("id") || token.equals("num");
   }
 
   private static Boolean expression_prime() {
-    token = scanner.readline();
-    if (token == "+" || token == "-") {
+    token = scanner.next();
+    if (token.equals("+") || token.equals("-")) {
       return factor();
     }
-    return token == "$";
+    return true;
   }
 
   private static Boolean expression() {
@@ -27,26 +27,28 @@ public class Parser {
   }
 
   private static Boolean statement() {
-    token = scanner.readline();
-    if (token != "id") {
+    token = scanner.next();
+    if (!token.equals("id")) {
       return false;
     }
-    token = scanner.readline();
-    if (token != "=") {
+    token = scanner.next();
+    if (!token.equals("=")) {
       return false;
     }
     return expression();
   }
 
   private static Boolean statement_list_prime() {
-    token = scanner.readline();
-    return token == "end";
+    token = scanner.next();
+    return token.equals("end");
   }
 
   private static Boolean statement_list() {
+
     if (statement()) {
-      token = scanner.readline();
-      if (token != ";") {
+      token = scanner.next();
+      System.out.println("statement_list");
+      if (!token.equals(";")) {
         return false;
       }
       return statement_list_prime();
@@ -55,7 +57,8 @@ public class Parser {
   }
 
   private static Boolean program() {
-    if (token == "begin") {
+    token = scanner.next();
+    if (token.equals("begin")) {
       return statement_list();
     }
     return false;
@@ -74,16 +77,15 @@ public class Parser {
       return;
     }
 
-    try {
-      token = scanner.readline();
+    //try {
       if (program()) {
         System.out.println("SUCCESS");
       } else {
         System.out.println("ERROR");
       }
       scanner.close();
-    } catch (Exception e) {
-      System.out.println("ERROR");
-    }
+    //} catch (Exception e) {
+    //  System.out.println("ERROR");
+    //}
   }
 }
