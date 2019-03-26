@@ -8,11 +8,13 @@ public class Parser {
 
   private static Boolean factor() {
     token = scanner.next();
+    System.out.println("factor " + token);
     return token.equals("id") || token.equals("num");
   }
 
   private static Boolean expression_prime() {
     token = scanner.next();
+    System.out.println("expression_prime " + token);
     if (token.equals("+") || token.equals("-")) {
       return factor();
     }
@@ -28,10 +30,12 @@ public class Parser {
 
   private static Boolean statement() {
     token = scanner.next();
+    System.out.println("statement_1 " + token);
     if (!token.equals("id")) {
       return false;
     }
     token = scanner.next();
+    System.out.println("statement_2 " + token);
     if (!token.equals("=")) {
       return false;
     }
@@ -39,15 +43,14 @@ public class Parser {
   }
 
   private static Boolean statement_list_prime() {
-    token = scanner.next();
-    return token.equals("end");
+    if (!statement_list()) {
+      return token.equals("$");
+    }
+    return false;
   }
 
   private static Boolean statement_list() {
-
     if (statement()) {
-      token = scanner.next();
-      System.out.println("statement_list");
       if (!token.equals(";")) {
         return false;
       }
@@ -58,8 +61,11 @@ public class Parser {
 
   private static Boolean program() {
     token = scanner.next();
-    if (token.equals("begin")) {
-      return statement_list();
+    System.out.println("program " + token);
+    if (token.equals("begin") && statement_list()) {
+      token = scanner.next();
+      System.out.println("program " + token);
+      return token.equals("end");
     }
     return false;
   }
