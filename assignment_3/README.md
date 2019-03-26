@@ -15,17 +15,16 @@ below is a LL(1) representation of the VSPL grammar provided above
 ```
 <program> ::= begin <statement_list>
 
-<statement_list>  ::= <statement> ; <statement_list'>
+<statement_list>  ::= <statement> <statement_list'>
 <statement_list'> ::= <statement_list>
                     | end
-                    | $
 
 <statement> ::= id = <expression>
 
 <expression>  ::= <factor> <expression'>
-<expression'> ::= +<factor>
-                | -<factor>
-                | $
+<expression'> ::= +<factor>;
+                | -<factor>;
+                | ;
 
 <factor> ::= id | num
 ```
