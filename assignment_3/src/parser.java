@@ -6,19 +6,23 @@ public class Parser {
   private static Scanner scanner;
   private static String token;
 
-  private static Boolean factor() {
+  private static String get_token() {
     token = scanner.next();
-    System.out.println("factor " + token);
+    System.out.println(token);
+    return token;
+  }
+
+  private static Boolean factor() {
+    token = get_token();
     return token.equals("id") || token.equals("num");
   }
 
   private static Boolean expression_prime() {
-    token = scanner.next();
-    System.out.println("expression_prime " + token);
+    token = get_token();
     if (token.equals("+") || token.equals("-")) {
-      return factor();
+      return factor() && get_token().equals(";");
     }
-    return true;
+    return token.equals(";");
   }
 
   private static Boolean expression() {
@@ -29,43 +33,30 @@ public class Parser {
   }
 
   private static Boolean statement() {
-    token = scanner.next();
-    System.out.println("statement_1 " + token);
-    if (!token.equals("id")) {
-      return false;
-    }
-    token = scanner.next();
-    System.out.println("statement_2 " + token);
-    if (!token.equals("=")) {
-      return false;
-    }
-    return expression();
-  }
-
-  private static Boolean statement_list_prime() {
-    if (!statement_list()) {
-      return token.equals("$");
+    if (get_token().equals("id") && get_token().equals("=")) {
+      return expression();
     }
     return false;
   }
 
+  private static Boolean statement_list_prime() {
+    if (statement_list()) {
+      return true;
+    }
+    return token.equals("end");
+  }
+
   private static Boolean statement_list() {
     if (statement()) {
-      if (!token.equals(";")) {
-        return false;
-      }
       return statement_list_prime();
     }
     return false;
   }
 
   private static Boolean program() {
-    token = scanner.next();
-    System.out.println("program " + token);
-    if (token.equals("begin") && statement_list()) {
-      token = scanner.next();
-      System.out.println("program " + token);
-      return token.equals("end");
+
+    if (get_token().equals("begin")) {
+      return statement_list();
     }
     return false;
   }
