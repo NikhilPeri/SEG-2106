@@ -8,7 +8,6 @@ public class Parser {
 
   private static String get_token() {
     token = scanner.next();
-    System.out.println(token);
     return token;
   }
 
@@ -74,15 +73,15 @@ public class Parser {
       return;
     }
 
-    //try {
+    try {
       if (program()) {
         System.out.println("SUCCESS");
       } else {
         System.out.println("ERROR");
       }
       scanner.close();
-    //} catch (Exception e) {
-    //  System.out.println("ERROR");
-    //}
+    } catch (Exception e) {
+      System.out.println("ERROR");
+    }
   }
 }
